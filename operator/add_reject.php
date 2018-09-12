@@ -2,6 +2,7 @@
 <?php
 include ('../config.php');
 include 'header.php';
+session_start();
 
 $t = mysql_query("SELECT sector from tbl_users WHERE userId='".$_SESSION['username']."'") or die(mysql_error());
 $s = mysql_fetch_array($t);
@@ -25,6 +26,9 @@ $thresholdQuery= mysql_fetch_array($thresholdAmount);
 
 $thresholdQty= mysql_query("SELECT * FROM tbl_thresholdqty");
 $thresholdQtyQuery= mysql_fetch_array($thresholdQty);
+
+$takeId= mysql_query("SELECT * FROM tbl_thresholdqty");
+$eksId= mysql_fetch_array($takeId);
 
 $numtbl = 0;
 if($tbltemp){
@@ -107,6 +111,14 @@ if($tbltemp){
                   </select>
                 </div>
                 <div class="form-group">
+                  <label>thresholdqty</label>
+                  <input type="text" class="form-control" name="thresholdqty" id="thresholdqty" value="<?php echo $thresholdQtyQuery['thresholdQty']; ?>" required>
+                </div>
+                <div class="form-group">
+                  <label>thresholdAmount</label>
+                  <input type="text" class="form-control" name="thresholdAmount" id="thresholdAmount" value="<?php echo $thresholdQuery['threshold']; ?>" required>
+                </div>
+                <div class="form-group">
                   <label>Qty</label>
                   <input type="number" class="form-control" name="qty" id="qty" min=1 oninput="validity.valid||(value='');" required>
                 </div>
@@ -126,7 +138,14 @@ if($tbltemp){
                 </div>
 
               </div>
+              <?php
 
+              $tresss=MySQL_query("SELECT * FROM tbl_thresholdqty WHERE id=1");
+              $qty=mysql_fetch_array($tresss);
+
+              $tressss=MySQL_query("SELECT * FROM tbl_threshold WHERE id_threshold=1");
+              $amount=mysql_fetch_array($tressss);
+              ?>
               <div class="box-footer text-center">
                 <button type="button" class="btn btn-primary" id="instemp"><i class="fa fa-paper-plane"></i> Insert Data</button>
               </div>
@@ -157,7 +176,8 @@ if($tbltemp){
                     <th>Amount</th>
                     <th>Action</th>
                     <th hidden>pic</th>
-                    <th>picture</th>
+                    <th>Picture</th>
+                    <th hidden>pictureValue</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -198,10 +218,31 @@ if($tbltemp){
                     <div class="text-center">
                       <!-- First, include the Webcam.js JavaScript Library -->
                       <form>
-                        <input type=button value="Take Snapshot" onClick="take_snapshot('results<?php echo $no; ?>')" class="btn btn-lg btn-warning btn-sm">
+                        <input type=button id="" value="Snapshot" onClick="take_snapshot('results<?php echo $no; ?>', '<?php echo $res['id_reject'];?>')" class="btn btn-lg btn-warning btn-sm">
                       </form>
+                      <script language="JavaScript">
+                        function take_snapshot(results_photo, id) {
+                          // take snapshot and get image data
+                          Webcam.snap( function(data_uri) {
+                            // display results in page
 
+                            Webcam.upload( data_uri, 'saveimage.php?id='+id, function(code, text) {
+                            document.getElementById(results_photo).innerHTML =
+                              '<img src="'+data_uri+'"/>';
+                          } );
+                        } );
+                      }
+                      </script>
                         </td>
+                        <?php
+                        $tresss=MySQL_query("SELECT * FROM tbl_thresholdqty WHERE id=1");
+                        $qty=mysql_fetch_array($tresss);
+
+                        $tressss=MySQL_query("SELECT * FROM tbl_threshold WHERE id_threshold=1");
+                        $amount=mysql_fetch_array($tressss);
+                        ?>
+
+                        <td hidden><input type="text" value="0" name="pictureValue" id="pictureValue"<?php echo $res['qty']; ?></td>
                   </tr>
                 <?php }} else {?>
                   <tr>
@@ -243,21 +284,11 @@ if($tbltemp){
           <br>
           <center>
             <form action="save_reject.php" method="post">
+
               <button type="submit" name="submit" class="btn btn-lg btn-success"><i class="fa fa-save"></i> Save</button>
                 </form>
               </center>
-                    <script language="JavaScript">
-                      function take_snapshot(results_photo) {
-                        // take snapshot and get image data
-                        Webcam.snap( function(data_uri) {
-                          // display results in page
-                          Webcam.upload( data_uri, 'saveimage.php', function(code, text) {
-                          document.getElementById(results_photo).innerHTML =
-                            '<img src="'+data_uri+'"/>';
-                        } );
-                      } );
-                    }
-                    </script>
+
               </div>
               <?php } ?>
             </div>

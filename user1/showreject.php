@@ -3,7 +3,7 @@
     include('../config.php');
     $no_ticket = $_GET['id'];
 
-    $check=MySQL_query("SELECT eng_status, mgr_status FROM tbl_approve WHERE no_ticket='$no_ticket'");
+    $check=MySQL_query("SELECT eng_status, mgr_status, spv_status, finance_mgrStatus FROM tbl_approve WHERE no_ticket='$no_ticket'");
     $tes=mysql_fetch_array($check);
     $history = MySQL_query("SELECT * FROM tbl_history WHERE no_ticket='$no_ticket' ORDER BY date ASC");
 
@@ -112,10 +112,16 @@
                                     <th>Eng Date</th>
                                     <th>Eng Comment</th>
                                     <th>Eng Status</th>
+                                    <th>Supervisor</th>
+                                    <th>SPV Date</th>
+                                    <th>SPV Comment</th>
                                     <th>Manager</th>
                                     <th>Mgr Date</th>
                                     <th>Mgr Comment</th>
                                     <th>Mgr Status</th>
+                                    <th>Finance MGR</th>
+                                    <th>Finance MGR Date</th>
+                                    <th>Finance MGR Comment</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -129,10 +135,16 @@
                                         <td><?php echo $res['eng_date']; ?></td>
                                         <td><?php echo $res['eng_com']; ?></td>
                                         <td><?php echo $res['eng_status']; ?></td>
+                                        <td><?php echo $res['spv']; ?></td>
+                                        <td><?php echo $res['spv_date']; ?></td>
+                                        <td><?php echo $res['spv_com']; ?></td>
                                         <td><?php echo $res['mgr_name']; ?></td>
                                         <td><?php echo $res['mgr_date']; ?></td>
                                         <td><?php echo $res['mgr_com']; ?></td>
                                         <td><?php echo $res['mgr_status']; ?></td>
+                                        <td><?php echo $res['finance_mgr']; ?></td>
+                                        <td><?php echo $res['finance_mgrDate']; ?></td>
+                                        <td><?php echo $res['finance_mgrCom']; ?></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
@@ -155,7 +167,7 @@
                     <div class="box-body">
                         <div class="col-md-12">
                             <input type="hidden" name="ticket" id="ticket" value="<?php echo $no_ticket; ?>">
-                            <textarea class="form-control" minlength="11" rows="4" name="comment" id="comment" required <?php if($tes['mgr_status'] == 'Approved'){echo 'readonly';}?>><?php echo $res['eng_com']; ?></textarea>
+                            <textarea class="form-control" minlength="11" rows="4" name="comment" id="comment" required <?php if($tes['mgr_status'] == 'Approved' || $tes['eng_status'] == ''){echo 'readonly';}?>><?php echo $res['eng_com']; ?></textarea>
                         </div>
                     </div>
                 </div>
@@ -165,7 +177,7 @@
         </section>
     </div>
     <div class="modal-footer">
-      <?php if($tes['mgr_status'] != 'Approved'){?>
+      <?php if($tes['mgr_status'] != 'Approved' || $tes['eng_status'] == ''){?>
           <button type="submit" class="btn btn-success" name="approve"><i class="fa fa-thumbs-up"></i> Approve</button>
           <button type="submit" class="btn btn-danger" name="reject"><i class="fa fa-thumbs-down"></i> Reject</button>
       <?php } ?>
@@ -196,6 +208,7 @@ $(document).ready(function() {
         $('button[type="submit"]').attr('disabled' , true);
     <?php }else if($tes['eng_com'] != ''){?>
     <?php } ?>
+
 $('textarea').on('keyup',function()
 {
     var textarea_val = $("#comment").val();

@@ -476,50 +476,44 @@ animation: burst 3s infinite linear
       <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
         <span class="sr-only">Toggle navigation</span>
       </a>
-
+      <?php
+      $qry=mysql_query("SELECT * FROM tbl_approve where mgr_name='' AND spv!='' ");
+      $num=mysql_num_rows($qry);
+      ?>
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
-          <?php
-          $query=mysql_query("SELECT tbl_prod_reject.no_ticket, tbl_prod_reject.insertDate, tbl_prod_reject.sector,
-                    tbl_prod_reject.insertedBy, SUM(tbl_prod_reject.qty) as total,
-                  SUM(tbl_prod_reject.amount) as amount, tbl_prod_reject.action, tbl_prod_reject.pic,
-                  tbl_approve.mgr_name, tbl_approve.eng_name, tbl_approve.spv, tbl_approve.finance_mgr, tbl_approve.sap_admin,
-                  tbl_approve.eng_date, tbl_approve.mgr_date, tbl_approve.spv_date, tbl_approve.finance_mgrDate
-                    FROM tbl_prod_reject
-                  left join tbl_approve on tbl_approve.no_ticket= tbl_prod_reject.no_ticket
-                  WHERE plant='".$tes['plant']."' AND mgr_name ='' AND spv!=''
-                  GROUP BY no_ticket") or die(mysql_error());
-          $jumlahnotif = mysql_query($query);
-          $jumlah = mysql_num_rows($jumlahnotif);
-          ?>
-          <li class="dropdown notifications-menu" >
+          <li class="dropdown messages-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-fw fa-bell faa-ring animated"></i>
-              <span class="label label-info"><?php echo $jumlah; ?></span>
+              <span class="label label-warning"><?php echo $num;?></span>
             </a>
-            <ul class="dropdown-menu" style="width: 450px">
-              <li class="header">You have <?php echo $jumlah; ?> Delete Propose</li>
+            <ul class="dropdown-menu">
+              <li class="header">You have <?php echo $num;?> notification</li>
               <li>
+                <!-- inner menu: contains the actual data -->
                 <ul class="menu">
-                  <!-- Date -->
-                  <?php
-                    $query=mysql_query("SELECT * FROM tbl_prod_reject where statusdel = 1");
-                    while($b=mysql_fetch_array($query)){
-                      $no_ticket = $b['no_ticket'];
-                      $id = $b['id_reject'];
-                      $material = $b['material_name'];?>
-                  <li>
-                    <a>
-                      <i class="fa fa-warning text-yellow"></i> Some Material on Ticket <?php echo $no_ticket; ?> need approval to delete ||
-                      <button class="btn btn-info btn-xs" onclick="window.location.href='showDelete.php?ticket=<?php echo $no_ticket?>&id=<?php echo $id?>&material=<?php echo $material?>'"><i class="fa fa-eye "></i></button>
-                      <button class="btn btn-danger btn-xs" onclick="window.location.href='delitem.php?ticket=<?php echo $no_ticket?>&id=<?php echo $id?>&material=<?php echo $material?>'"><i class="fa fa-trash "></i></button>
-                      <button class="btn btn-warning btn-xs" onclick="window.location.href='delitem-cancel.php?ticket=<?php echo $no_ticket?>&id=<?php echo $id?>&material=<?php echo $material?>'"><i class="fa fa-times "></i></button>
+                <?php while($res=mysql_fetch_array($qry)){ ?>
+                  <li><!-- start message -->
+                    <a href="notif_waiting_approval.php?ticket=<?php echo $res['no_ticket']?>">
+                      <div class="pull-left">
+                      <img src="../assets/image/header.png" class="user-image" alt="User Image" style="background-color: white;">
+                      </div>
+                      <h6>
+                        <p>
+                          Ticket number <?php echo $res['no_ticket']?> needs to approve
+                       <?php //echo $num;?> <!--Tickets need(s) to Approve -->
+                      </p>
+                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                      </h6>
+                      <p><?php echo $res['info']; ?></p>
                     </a>
                   </li>
-                <?php } ?>
+                  <!-- end message -->
+                  <?php } ?>
                 </ul>
               </li>
+              <li class="footer"><a href="product_reject.php">See All Notif</a></li>
             </ul>
           </li>
 
@@ -530,7 +524,7 @@ animation: burst 3s infinite linear
           ?>
           <li class="dropdown notifications-menu" >
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-flag"></i>
+              <i class="fa fa-fw fa-flag faa-ring animated"></i>
               <span class="label label-danger"><?php echo $jumlah; ?></span>
             </a>
             <ul class="dropdown-menu" style="width: 450px">

@@ -45,6 +45,7 @@ $es=mysql_fetch_array($check);
                   <th class="text-center" width="1px" rowspan="2">Total Reject Qty</th>
                   <th class="text-center" width="2px" rowspan="2">Total Amount</th>
                   <th class="text-center" rowspan="2">Status</th>
+                  <th class="text-center" rowspan="2">Back From</th>
                   <th class="text-center" rowspan="2">Action</th>
                 </tr>
                 <tr>
@@ -102,6 +103,8 @@ $es=mysql_fetch_array($check);
                     <td><?php echo $b['total'] ?></td>
                     <td>US$<?php echo number_format($b['amount'],2,",","."); ?></td>
                     <td><?php echo $b['action'] ?></td>
+                    <td><?php if ($b['BackFrom'] != 0 || $b['BackFrom'] != '' ){echo $b['BackFrom'] ; } ?></td>
+
                     <!--Roman-->
                     <?php
 

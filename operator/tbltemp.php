@@ -19,7 +19,7 @@
                     <th>Price</th>
                     <th>Amount</th>
                     <th>Action</th>
-                    <th>pic</th>
+                    <th hidden>pic</th>
                     <th>picture</th>
                   </tr>
                 </thead>
@@ -38,11 +38,13 @@
                     <td>US$<?php echo number_format(($res['amount'] / $res['qty']),2,",","."); ?></td>
                     <td>US$<?php echo number_format($res['amount'],2,",","."); ?></td>
                     <td><button class="btn btn-danger del-data" id="<?php echo $res['id_reject']; ?>"><i class="fa fa-trash"></i></button></td>
-                    <td><input type="text" value="<?php echo $res['pic']; ?>" name="picName" id="picName"></td>
+                    <td><input type="hidden" value="<?php echo $res['pic']; ?>" name="picName" id="picName"></td>
                     <td>
-                        <center><div id="my_camera"></div>
+
+                      <br>
+                        <center><div id="my_camera<?php echo $no; ?>"></div>
                           <br>
-                        <div id="results"></div></center>
+                        <div id="results<?php echo $no; ?>"></div></center>
                         <br>
                       <script type="text/javascript" src="../webcam/webcam.min.js"></script>
                       <script language="JavaScript">
@@ -52,14 +54,30 @@
                           image_format: 'jpeg',
                           jpeg_quality: 90
                         });
-                        Webcam.attach( '#my_camera' );
+                        Webcam.attach( '#my_camera<?php echo $no; ?>' );
                       </script>
                     <div class="text-center">
                       <!-- First, include the Webcam.js JavaScript Library -->
+                      <center>
                       <form>
-                        <input type=button value="Take Snapshot" onClick="take_snapshot()" class="btn btn-lg btn-warning btn-sm">
+                        <input type="hidden" name="id_reject" id="id_reject" value="<?php echo $res['id_reject']; ?>">
+                        <input type=button id="" value="Snapshot" onClick="take_snapshot('results<?php echo $no; ?>')" class="btn btn-lg btn-warning btn-sm">
                       </form>
-                    </td>
+                      <script language="JavaScript">
+                        function take_snapshot(results_photo, id) {
+                          // take snapshot and get image data
+                          Webcam.snap( function(data_uri) {
+                            // display results in page
+
+                            Webcam.upload( data_uri, 'saveimage.php?id='+id, function(code, text) {
+                            document.getElementById(results_photo).innerHTML =
+                              '<img src="'+data_uri+'"/>';
+                          } );
+                        } );
+                      }
+                      </script>
+                    </center>
+                        </td>
                   </tr>
                   <?php }}else {?>
                   <tr>
@@ -71,7 +89,7 @@
               </table>
               <div class="table-responsive">
               <?php if($numtbl > 0){ ?>
-                <br>
+              <!--  <br>
                   <center><div id="my_camera"></div>
                     <br>
                   <div id="results"></div></center>
@@ -89,27 +107,32 @@
               <div class="text-center">
 
                 <!-- First, include the Webcam.js JavaScript Library -->
-
+                <!--
                 <form>
                   <input type=button value="Take Snapshot" onClick="take_snapshot()" class="btn btn-lg btn-warning btn-sm">
                 </form>
+              -->
               <br>
               <br>
                 <form action="save_reject.php" method="post">
                   <button type="submit" name="submit" class="btn btn-lg btn-success"><i class="fa fa-save"></i> Save</button>
                 </form>
-                    <script language="JavaScript">
-                      function take_snapshot() {
-                        // take snapshot and get image data
-                        Webcam.snap( function(data_uri) {
-                          // display results in page
-                          Webcam.upload( data_uri, 'saveimage.php', function(code, text) {
-                          document.getElementById('results').innerHTML =
-                            '<img src="'+data_uri+'"/>';
-                        } );
-                      } );
-                    }
-                    </script>
+                <!--
+                <script language="JavaScript">
+                  function take_snapshot(results_photo) {
+                    // take snapshot and get image data
+                    Webcam.snap( function(data_uri) {
+                      // display results in page
+                      var id= $('#id_reject').val();
+
+                      Webcam.upload( data_uri, 'saveimage.php?id='+id, function(code, text) {
+                      document.getElementById(results_photo).innerHTML =
+                        '<img src="'+data_uri+'"/>';
+                    } );
+                  } );
+                }
+                </script>
+              -->
               </div>
               <?php } ?>
           <link rel="stylesheet" href="../assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">

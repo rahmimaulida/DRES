@@ -13,7 +13,10 @@ if(isset($_POST['submit'])){
     $insert = "INSERT INTO `tbl_prod_reject`(`no_ticket`, `material_name`,`material_description`, `qty`, `plant`, `sector`, `line`, `issue`, `amount`, `action`, `status`, `pic`, `insertedBy`, insertDate) SELECT ".$get.", `material_name`, `material_description`, `qty`, `plant`, `sector`, `line`, `issue`, `amount`, `action`, `status`, `pic`, `insertedBy`, '".$date."' FROM `tempreject_".$_SESSION['username']."`";
     $qry = mysql_query($insert) or die(mysql_error());
 
-    $approve = mysql_query("INSERT INTO `tbl_approve` (`no_ticket`, `li_name`, `li_date`) VALUES('".$get."','".$_SESSION['name']."','".$date."')") or die(mysql_error());
+    $sqlGambar= mysql_query("select * from gambar order by id desc limit 1");
+    $tampilkanGambar= mysql_fetch_array($sqlGambar);
+
+    $approve = mysql_query("INSERT INTO `tbl_approve` (`no_ticket`, `li_name`, `li_date`, `gambar`) VALUES('".$get."','".$_SESSION['name']."','".$date."','".$tampilkanGambar['gambar']."')") or die(mysql_error());
 
     $history = mysql_query("INSERT INTO tbl_history VALUES('','".$get."','".$info."','".$date."','".$codeinfo."')");
 

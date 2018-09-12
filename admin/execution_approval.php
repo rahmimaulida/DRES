@@ -33,32 +33,27 @@ $es=mysql_fetch_array($check);
             <!-- /.box-header -->
             <div class="box-body">
               <form class="form-horizontal" action="approve.php" method="post">
+                <div class="table-responsive">
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr valign="middle">
-                  <th class="text-center" width="1px" rowspan="3">Ticket No</th>
+                  <th class="text-center" width="1px" rowspan="2">Ticket No</th>
                   <th class="text-center" colspan="2">Line Inspector</th>
                   <th class="text-center" colspan="2">Engineer</th>
                   <th class="text-center" colspan="2">Supervisor</th>
                   <th class="text-center" colspan="2">CS&Q Manager</th>
-                  <th class="text-center" colspan="2">Finance Manager</th>
-                  <th class="text-center" width="3px" rowspan="3">SAP Admin</th>
-                  <th class="text-center" rowspan="3">Sector</th>
-                  <th class="text-center" width="1px" rowspan="3">Total Reject Qty</th>
-                  <th class="text-center" width="2px" rowspan="3">Total Amount</th>
-                  <th class="text-center" rowspan="3">Status</th>
-                  <th class="text-center" rowspan="3">Action</th>
-                </tr>
-                <tr>
+                  <th class="text-center" width="3px" rowspan="2">SAP Admin</th>
+                  <th class="text-center" rowspan="2">Sector</th>
+                  <th class="text-center" width="1px" rowspan="2">Total Reject Qty</th>
+                  <th class="text-center" width="2px" rowspan="2">Total Amount</th>
+                  <th class="text-center" rowspan="2">Status</th>
+                  <th class="text-center" rowspan="2">Action</th>
                 </tr>
                 <tr>
                   <th class="text-center">Name</th>
                   <th class="text-center" width="5px">Date</th>
 
                   <th class="text-center"  width="5px">Name</th>
-                  <th class="text-center"  width="5px">Date</th>
-
-                  <th class="text-center">Name</th>
                   <th class="text-center"  width="5px">Date</th>
 
                   <th class="text-center">Name</th>
@@ -83,9 +78,21 @@ $es=mysql_fetch_array($check);
                   GROUP BY no_ticket") or die(mysql_error());
                   while($b=mysql_fetch_array($query)){
                 ?>
+                <?php
+
+                $tresss=MySQL_query("SELECT * FROM tbl_thresholdqty WHERE id=1");
+                $qty=mysql_fetch_array($tresss);
+
+                $tressss=MySQL_query("SELECT * FROM tbl_threshold WHERE id_threshold=1");
+                $amount=mysql_fetch_array($tressss);
+                ?>
                 <tr class="text-center">
+                  <?php if($b['total'] <= $qty['thresholdQty'] && $b['amount'] <= $amount['threshold']){?>
                   <td><a class="btn btn-warning btn-xs" href="#" data-target="#ModalDetail" data-whatever="<?php echo $b['no_ticket']; ?>"
                     data-toggle="modal"><?php echo $b['no_ticket']; ?></a></td>
+                  <?php } else { ?>
+                    <td><a class="btn btn-danger btn-xs" href="#" data-target="#ModalDetail" data-whatever="<?php echo $b['no_ticket']; ?>" data-toggle="modal"><?php echo $b['no_ticket']; $no_ticket = $b['no_ticket']; ?></a></td>
+                  <?php } ?>
                   <td><?php echo $b['insertedBy']; ?></td>
                   <td><?php echo $b['insertDate']; ?></td>
                   <td><?php echo $b['eng_name']; ?></td>
@@ -95,20 +102,19 @@ $es=mysql_fetch_array($check);
 
                   <td><?php echo $b['mgr_name']; ?></td>
                   <td><?php echo $b['mgr_date']; ?></td>
-                  <td><?php echo $b['finance_mgr']; ?></td>
-                  <td><?php echo $b['finance_mgrDate']; ?></td>
                   <td><?php echo $b['sap_admin']; ?></td>
                   <td><?php echo $b['sector']; ?></td>
                   <td><?php echo $b['total'] ?></td>
                   <td>US$<?php echo number_format($b['amount'],2,",","."); ?></td>
                   <td><?php echo $b['action'] ?></td>
                   <td>
-                    <a class="btn btn-warning btn-sm" name="approve" id="approve" disabled>APPROVED <i class="fa fa-thumbs-up"></i></a></td>
+                    <a class="btn btn-warning btn-sm" name="approve" id="approve" readonly>APPROVED <i class="fa fa-heart"></i></a></td>
                 </tr>
                 <?php } ?>
               </form>
                 </tbody>
               </table>
+            </div>
             </div>
             <!-- /.box-body -->
 

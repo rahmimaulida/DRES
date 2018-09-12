@@ -22,7 +22,7 @@ if(isset($_POST['approve'])){
         }else{
             $history = mysql_query("INSERT INTO tbl_history VALUES('','".$ticket."','".$com."','".$date."','Update Comment')");
         }
-    
+
         $qry = mysql_query("UPDATE tbl_approve SET eng_name='".$_SESSION['name']."', eng_com='".$comment."', eng_date='".$date."', eng_status='Approved' WHERE no_ticket='$ticket'");
 
         header("location: product_reject.php?success");

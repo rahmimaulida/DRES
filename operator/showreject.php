@@ -1,12 +1,12 @@
 <?php
     session_start();
-    include('../config.php'); 
+    include('../config.php');
     $no_ticket = $_GET['id'];
 
     $check=MySQL_query("SELECT eng_status, mgr_status FROM tbl_approve WHERE no_ticket='$no_ticket'");
     $tes=mysql_fetch_array($check);
     $history = MySQL_query("SELECT * FROM tbl_history WHERE no_ticket='$no_ticket' ORDER BY `id_history` DESC");
- 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +15,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Using Bootstrap modal</title>
- 
+
     <!-- Bootstrap Core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -39,33 +39,51 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Material</th>
+                                    <th>Material Description</th>
                                     <th>Sector</th>
                                     <th>Qty</th>
                                     <th>Price</th>
                                     <th>Amount</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php 
+                                <?php
                                 $no = 1;
                                 $i = 0;
                                 $result = MySQL_query("SELECT * FROM tbl_prod_reject WHERE no_ticket = '".$no_ticket."'");
                                 while($res = mysql_fetch_array($result)){ ?>
+                                  <?php
+                                  $tresss=MySQL_query("SELECT * FROM tbl_thresholdqty WHERE id=1");
+                                  $qty=mysql_fetch_array($tresss);
+
+                                  $tressss=MySQL_query("SELECT * FROM tbl_threshold WHERE id_threshold=1");
+                                  $amount=mysql_fetch_array($tressss);
+
+                                  $queryy=mysql_query("SELECT SUM(qty) as total, SUM(amount) as amountt
+                                  FROM tbl_prod_reject") or die(mysql_error());
+                                  $b=mysql_fetch_array($queryy);
+                                  ?>
+                                  <?php if($b['total'] <= $qty['thresholdQty'] && $b['amountt'] <= $amount['threshold']){?>
                                     <tr>
                                         <td><?php echo $no++; ?></td>
                                         <td><?php echo $res['material_name']; ?></td>
+                                        <td><?php echo $res['material_description']; ?></td>
                                         <td><?php echo $res['sector']; ?></td>
                                         <td><?php echo $res['qty']; ?></td>
                                         <td>US$<?php echo number_format(($res['amount'] / $res['qty']),2,",","."); ?></td>
                                         <td>US$<?php echo number_format($res['amount'],2,",","."); ?></td>
-                                        <td>
-                                            <?php if($tes['mgr_status'] == '' && $tes['eng_status'] == ''){  ?>
-                                                <a class="btn btn-warning" href="#" data-target="#ModalUpdate" data-whatever="<?php echo $res['id_reject']; ?>" data-toggle="modal"><i class="fa fa-edit"></i></a>
-                                                <?php echo "<a class='btn btn-danger' data-toggle='modal' data-target='#del_confirm' data-href='delitem.php?id=".$res['id_reject']."&ticket=".$res['no_ticket']."&mat=".$res['material_name']."'><i class='fa fa-trash'></i></a>"; ?>
-                                            <?php }else{ echo "Not Available"; } ?>
-                                        </td>
                                     </tr>
+                                    <?php } else { ?>
+                                      <tr bgcolor="#ce2121">
+                                          <td><?php echo $no++; ?></td>
+                                          <td><?php echo $res['material_name']; ?></td>
+                                          <td><?php echo $res['material_description']; ?></td>
+                                          <td><?php echo $res['sector']; ?></td>
+                                          <td><?php echo $res['qty']; ?></td>
+                                          <td>US$<?php echo number_format(($res['amount'] / $res['qty']),2,",","."); ?></td>
+                                          <td>US$<?php echo number_format($res['amount'],2,",","."); ?></td>
+                                      </tr>
+                                    <?php } ?>
                                 <?php } ?>
                             </tbody>
                             </table>
@@ -90,63 +108,31 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <!-- general form elements -->
+            <div class="col-md-4">
                 <div class="box box-success">
                     <div class="box-header with-border box-solid bg-green">
-                        <h3 class="box-title">Approve Flow</h3>
+                        <h3 class="box-title">Picture</h3>
                     </div>
+
+                    <?php
+                    $sql=mysql_query("select gambar from tbl_approve where no_ticket= $no_ticket");
+                    $tampilkan = mysql_fetch_array($sql);
+                      ?>
                     <!-- /.box-header -->
-                    <div class="box-body">
-                        <div class="table-responsive">
-                            <table id="data" class="hover table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Line Inspector</th>
-                                    <th>LI Date</th>
-                                    <th>Engineer</th>
-                                    <th>Eng Date</th>
-                                    <th>Eng Comment</th>
-                                    <th>Eng Status</th>
-                                    <th>Manager</th>
-                                    <th>Mgr Date</th>
-                                    <th>Mgr Comment</th>
-                                    <th>Mgr Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <?php 
-                            $result = MySQL_query("SELECT * FROM tbl_approve WHERE no_ticket = '".$no_ticket."'");
-                            while($res = mysql_fetch_array($result)){ ?>
-                                    <tr class="text-center">
-                                        <td><?php echo $res['li_name']; ?></td>
-                                        <td><?php echo $res['li_date']; ?></td>
-                                        <td><?php echo $res['eng_name']; ?></td>
-                                        <td><?php echo $res['eng_date']; ?></td>
-                                        <td><?php echo $res['eng_com']; ?></td>
-                                        <td><?php echo $res['eng_status']; ?></td>
-                                        <td><?php echo $res['mgr_name']; ?></td>
-                                        <td><?php echo $res['mgr_date']; ?></td>
-                                        <td><?php echo $res['mgr_com']; ?></td>
-                                        <td><?php echo $res['mgr_status']; ?></td>
-                                    </tr>
-                                <?php } ?>
-                            </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.box -->
+                    <center>
+                      <td><img src="../assets/img/<?php echo $tampilkan['gambar']?>" width="150px" height="120px"/></td>
+                    </center>
+                      <!--<img src="<?php// echo $tampilkan['']; ?>" width="150px" height="150px"/></center> -->
             </div>
         </div>
+        </div>
+
         </section>
     </div>
     <div class="modal-footer">
-        <?php if($tes['mgr_status'] == '' && $tes['eng_status'] == ''){  ?>
-            <?php echo "<a class='btn btn-danger pull-left' data-toggle='modal' data-target='#del_confirm' data-href='delrej.php?id=".$b['no_ticket']."'><i class='fa fa-trash'></i> Delete Reject</a>"; ?>
-        <?php } ?>
+        <?php /* if($tes['mgr_status'] == '' && $tes['eng_status'] == ''){  ?>
+            <?php echo "<a class='btn btn-danger pull-left' data-toggle='modal' data-target='#del_confirm' data-href='delrej.php?id=".$res['no_ticket']."'><i class='fa fa-trash'></i> Delete Reject</a>"; ?>
+        <?php }*/ ?>
         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
     </div>
 	</form>

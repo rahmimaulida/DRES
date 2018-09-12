@@ -24,11 +24,12 @@ $qryplant = mysql_query("SELECT * FROM tbl_masterdata GROUP BY plant");
           <div class="box">
             <div class="box-header with-border box-solid bg-green">
               <h3 class="box-title">User View</h3>
-              <a class="btn btn-info pull-right" data-target="#ModalAdd" data-toggle="modal"><i class="fa fa-plus"></i> Add New Users</a>
+              <a class="btn btn-info pull-right" data-target="#ModalAdd" data-toggle="modal"><i class="fa fa-plus"></i> Add New Data</a>
             </div>
             <div></div>
             <!-- /.box-header -->
             <div class="box-body">
+              <div class="table-responsive">
               <table id="table" class="table">
                 <thead>
                   <tr>
@@ -57,6 +58,7 @@ $qryplant = mysql_query("SELECT * FROM tbl_masterdata GROUP BY plant");
                   </tr>
                 </tbody>
               </table>
+            </div>
             </div>
             <!-- /.box-body -->
 
@@ -153,7 +155,7 @@ $(function () {
           var recipient = button.data('whatever') // Extract info from data-* attributes
           var modal = $(this);
           var dataString = 'id=' + recipient;
- 
+
             $.ajax({
                 type: "GET",
                 url: "updDef.php",

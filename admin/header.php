@@ -60,6 +60,404 @@ ini_set('display_errors', 0);
   <![endif]-->
 
   <!-- Google Font -->
+  <style>
+  .div-decorator
+{
+    border-top:3px solid #428BCA;
+    border-right:3px solid #D9534F;
+    border-bottom:3px solid #5CB85C;
+    border-left:3px solid #F0AD4E;
+    margin:30px;
+    border-radius:20px;
+}
+.div-heading
+{
+    border-bottom:1px dashed #5BC0DE;
+    padding-top:15px;
+    padding-bottom:15px;
+    margin:0px;
+    background-color:#F5F5F5;
+    border-radius:20px 20px 0px 0px;
+}
+.heading
+{
+    color:#5FC9E5;
+}
+.div-content
+{
+    padding:30px
+}
+.btn-circle
+{
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+}
+.btn-circle.btn-lg
+{
+    width: 50px;
+    height: 50px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 25px;
+}
+.btn-circle.btn-xl
+{
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    font-size: 24px;
+    line-height: 1.33;
+    border-radius: 35px;
+}
+
+/* WRENCHING */
+@keyframes wrench {
+0%{transform:rotate(-12deg)}
+8%{transform:rotate(12deg)}
+10%{transform:rotate(24deg)}
+18%{transform:rotate(-24deg)}
+20%{transform:rotate(-24deg)}
+28%{transform:rotate(24deg)}
+30%{transform:rotate(24deg)}
+38%{transform:rotate(-24deg)}
+40%{transform:rotate(-24deg)}
+48%{transform:rotate(24deg)}
+50%{transform:rotate(24deg)}
+58%{transform:rotate(-24deg)}
+60%{transform:rotate(-24deg)}
+68%{transform:rotate(24deg)}
+75%,100%{transform:rotate(0deg)}
+}
+.faa-wrench.animated,
+.faa-wrench.animated-hover:hover,
+.faa-parent.animated-hover:hover > .faa-wrench {
+animation: wrench 2.5s ease infinite;
+transform-origin-x: 90%;
+transform-origin-y: 35%;
+transform-origin-z: initial;
+}
+.faa-wrench.animated.faa-fast,
+.faa-wrench.animated-hover.faa-fast:hover,
+.faa-parent.animated-hover:hover > .faa-wrench.faa-fast {
+animation: wrench 1.2s ease infinite;
+}
+.faa-wrench.animated.faa-slow,
+.faa-wrench.animated-hover.faa-slow:hover,
+.faa-parent.animated-hover:hover > .faa-wrench.faa-slow {
+animation: wrench 3.7s ease infinite;
+}
+
+/* BELL */
+@keyframes ring {
+0%{transform:rotate(-15deg)}
+2%{transform:rotate(15deg)}
+4%{transform:rotate(-18deg)}
+6%{transform:rotate(18deg)}
+8%{transform:rotate(-22deg)}
+10%{transform:rotate(22deg)}
+12%{transform:rotate(-18deg)}
+14%{transform:rotate(18deg)}
+16%{transform:rotate(-12deg)}
+18%{transform:rotate(12deg)}
+20%,100%{transform:rotate(0deg)}
+}
+.faa-ring.animated,
+.faa-ring.animated-hover:hover,
+.faa-parent.animated-hover:hover > .faa-ring {
+animation: ring 2s ease infinite;
+transform-origin-x: 50%;
+transform-origin-y: 0px;
+transform-origin-z: initial;
+}
+.faa-ring.animated.faa-fast,
+.faa-ring.animated-hover.faa-fast:hover,
+.faa-parent.animated-hover:hover > .faa-ring.faa-fast {
+animation: ring 1s ease infinite;
+}
+.faa-ring.animated.faa-slow,
+.faa-ring.animated-hover.faa-slow:hover,
+.faa-parent.animated-hover:hover > .faa-ring.faa-slow {
+animation: ring 3s ease infinite;
+}
+
+/* VERTICAL */
+@keyframes vertical {
+0%{transform:translate(0,-3px)}
+4%{transform:translate(0,3px)}
+8%{transform:translate(0,-3px)}
+12%{transform:translate(0,3px)}
+16%{transform:translate(0,-3px)}
+20%{transform:translate(0,3px)}
+22%,100%{transform:translate(0,0)}
+}
+.faa-vertical.animated,
+.faa-vertical.animated-hover:hover,
+.faa-parent.animated-hover:hover > .faa-vertical {
+animation: vertical 2s ease infinite;
+}
+.faa-vertical.animated.faa-fast,
+.faa-vertical.animated-hover.faa-fast:hover,
+.faa-parent.animated-hover:hover > .faa-vertical.faa-fast {
+animation: vertical 1s ease infinite;
+}
+.faa-vertical.animated.faa-slow,
+.faa-vertical.animated-hover.faa-slow:hover,
+.faa-parent.animated-hover:hover > .faa-vertical.faa-slow {
+animation: vertical 4s ease infinite;
+}
+
+/* HORIZONTAL */
+@keyframes horizontal {
+0%{transform:translate(0,0)}
+6%{transform:translate(5px,0)}
+12%{transform:translate(0,0)}
+18%{transform:translate(5px,0)}
+24%{transform:translate(0,0)}
+30%{transform:translate(5px,0)}
+36%,100%{transform:translate(0,0)}
+}
+.faa-horizontal.animated,
+.faa-horizontal.animated-hover:hover,
+.faa-parent.animated-hover:hover > .faa-horizontal {
+animation: horizontal 2s ease infinite;
+}
+.faa-horizontal.animated.faa-fast,
+.faa-horizontal.animated-hover.faa-fast:hover,
+.faa-parent.animated-hover:hover > .faa-horizontal.faa-fast {
+animation: horizontal 1s ease infinite;
+}
+.faa-horizontal.animated.faa-slow,
+.faa-horizontal.animated-hover.faa-slow:hover,
+.faa-parent.animated-hover:hover > .faa-horizontal.faa-slow {
+animation: horizontal 3s ease infinite;
+}
+
+/* FLASHING */
+@keyframes flash {
+0%,100%,50%{opacity:1}
+25%,75%{opacity:0}
+}
+.faa-flash.animated,
+.faa-flash.animated-hover:hover,
+.faa-parent.animated-hover:hover > .faa-flash {
+animation: flash 2s ease infinite;
+}
+.faa-flash.animated.faa-fast,
+.faa-flash.animated-hover.faa-fast:hover,
+.faa-parent.animated-hover:hover > .faa-flash.faa-fast {
+animation: flash 1s ease infinite;
+}
+.faa-flash.animated.faa-slow,
+.faa-flash.animated-hover.faa-slow:hover,
+.faa-parent.animated-hover:hover > .faa-flash.faa-slow {
+animation: flash 3s ease infinite;
+}
+
+/* BOUNCE */
+@keyframes bounce {
+0%,10%,20%,50%,80%,100%{transform:translateY(0)}
+40%{transform:translateY(-15px)}
+60%{transform:translateY(-15px)}
+}
+.faa-bounce.animated,
+.faa-bounce.animated-hover:hover,
+.faa-parent.animated-hover:hover > .faa-bounce {
+animation: bounce 2s ease infinite;
+}
+.faa-bounce.animated.faa-fast,
+.faa-bounce.animated-hover.faa-fast:hover,
+.faa-parent.animated-hover:hover > .faa-bounce.faa-fast {
+animation: bounce 1s ease infinite;
+}
+.faa-bounce.animated.faa-slow,
+.faa-bounce.animated-hover.faa-slow:hover,
+.faa-parent.animated-hover:hover > .faa-bounce.faa-slow {
+animation: bounce 3s ease infinite;
+}
+
+/* SPIN */
+@keyframes spin{
+0%{transform:rotate(0deg)}
+100%{transform:rotate(359deg)}
+}
+.faa-spin.animated,
+.faa-spin.animated-hover:hover,
+.faa-parent.animated-hover:hover > .faa-spin {
+animation: spin 1.5s linear infinite;
+}
+.faa-spin.animated.faa-fast,
+.faa-spin.animated-hover.faa-fast:hover,
+.faa-parent.animated-hover:hover > .faa-spin.faa-fast {
+animation: spin 0.7s linear infinite;
+}
+.faa-spin.animated.faa-slow,
+.faa-spin.animated-hover.faa-slow:hover,
+.faa-parent.animated-hover:hover > .faa-spin.faa-slow {
+animation: spin 2.2s linear infinite;
+}
+
+/* FLOAT */
+@keyframes float{
+0%{transform: translateY(0)}
+50%{transform: translateY(-6px)}
+100%{transform: translateY(0)}
+}
+.faa-float.animated,
+.faa-float.animated-hover:hover,
+.faa-parent.animated-hover:hover > .faa-float {
+animation: float 2s linear infinite;
+}
+.faa-float.animated.faa-fast,
+.faa-float.animated-hover.faa-fast:hover,
+.faa-parent.animated-hover:hover > .faa-float.faa-fast {
+animation: float 1s linear infinite;
+}
+.faa-float.animated.faa-slow,
+.faa-float.animated-hover.faa-slow:hover,
+.faa-parent.animated-hover:hover > .faa-float.faa-slow {
+animation: float 3s linear infinite;
+}
+
+/* PULSE */
+@keyframes pulse {
+0% {transform: scale(1.1)}
+50% {transform: scale(0.8)}
+100% {transform: scale(1.1)}
+}
+.faa-pulse.animated,
+.faa-pulse.animated-hover:hover,
+.faa-parent.animated-hover:hover > .faa-pulse {
+animation: pulse 2s linear infinite;
+}
+.faa-pulse.animated.faa-fast,
+.faa-pulse.animated-hover.faa-fast:hover,
+.faa-parent.animated-hover:hover > .faa-pulse.faa-fast {
+animation: pulse 1s linear infinite;
+}
+.faa-pulse.animated.faa-slow,
+.faa-pulse.animated-hover.faa-slow:hover,
+.faa-parent.animated-hover:hover > .faa-pulse.faa-slow {
+animation: pulse 3s linear infinite;
+}
+
+/* SHAKE */
+.faa-shake.animated,
+.faa-shake.animated-hover:hover,
+.faa-parent.animated-hover:hover > .faa-shake {
+animation: wrench 2.5s ease infinite;
+}
+.faa-shake.animated.faa-fast,
+.faa-shake.animated-hover.faa-fast:hover,
+.faa-parent.animated-hover:hover > .faa-shake.faa-fast {
+animation: wrench 1.2s ease infinite;
+}
+.faa-shake.animated.faa-slow,
+.faa-shake.animated-hover.faa-slow:hover,
+.faa-parent.animated-hover:hover > .faa-shake.faa-slow {
+animation: wrench 3.7s ease infinite;
+}
+
+/* TADA */
+@keyframes tada {
+0% {transform: scale(1)}
+10%,20% {transform:scale(.9) rotate(-8deg);}
+30%,50%,70% {transform:scale(1.3) rotate(8deg)}
+40%,60% {transform:scale(1.3) rotate(-8deg)}
+80%,100% {transform:scale(1) rotate(0)}
+}
+
+.faa-tada.animated,
+.faa-tada.animated-hover:hover,
+.faa-parent.animated-hover:hover > .faa-tada {
+animation: tada 2s linear infinite;
+}
+.faa-tada.animated.faa-fast,
+.faa-tada.animated-hover.faa-fast:hover,
+.faa-parent.animated-hover:hover > .faa-tada.faa-fast {
+animation: tada 1s linear infinite;
+}
+.faa-tada.animated.faa-slow,
+.faa-tada.animated-hover.faa-slow:hover,
+.faa-parent.animated-hover:hover > .faa-tada.faa-slow {
+animation: tada 3s linear infinite;
+}
+
+/* PASSING */
+@keyframes passing {
+0% {transform:translateX(-50%); opacity:0}
+50% {transform:translateX(0%); opacity:1}
+100% {transform:translateX(50%); opacity:0}
+}
+
+.faa-passing.animated,
+.faa-passing.animated-hover:hover,
+.faa-parent.animated-hover:hover > .faa-passing {
+animation: passing 2s linear infinite;
+}
+.faa-passing.animated.faa-fast,
+.faa-passing.animated-hover.faa-fast:hover,
+.faa-parent.animated-hover:hover > .faa-passing.faa-fast {
+animation: passing 1s linear infinite;
+}
+.faa-passing.animated.faa-slow,
+.faa-passing.animated-hover.faa-slow:hover,
+.faa-parent.animated-hover:hover > .faa-passing.faa-slow {
+animation: passing 3s linear infinite;
+}
+
+/* PASSING REVERSE */
+
+@keyframes passing-reverse {
+0% {transform:translateX(50%); opacity:0}
+50% {transform:translateX(0%); opacity:1}
+100% {transform:translateX(-50%); opacity:0}
+}
+
+.faa-passing-reverse.animated,
+.faa-passing-reverse.animated-hover:hover,
+.faa-parent.animated-hover:hover > .faa-passing-reverse {
+animation: passing-reverse 2s linear infinite;
+}
+.faa-passing-reverse.animated.faa-fast,
+.faa-passing-reverse.animated-hover.faa-fast:hover,
+.faa-parent.animated-hover:hover > .faa-passing-reverse.faa-fast {
+animation: passing-reverse 1s linear infinite;
+}
+.faa-passing-reverse.animated.faa-slow,
+.faa-passing-reverse.animated-hover.faa-slow:hover,
+.faa-parent.animated-hover:hover > .faa-passing-reverse.faa-slow {
+animation: passing-reverse 3s linear infinite;
+}
+
+/* WAVE */
+@keyframes burst {
+0% {opacity:.6}
+50% {transform:scale(1.8);opacity:0}
+100%{opacity:0}
+}
+.faa-burst.animated,
+.faa-burst.animated-hover:hover,
+.faa-parent.animated-hover:hover > .faa-burst {
+animation: burst 2s infinite linear
+}
+.faa-burst.animated.faa-fast,
+.faa-burst.animated-hover.faa-fast:hover,
+.faa-parent.animated-hover:hover > .faa-burst.faa-fast {
+animation: burst 1s infinite linear
+}
+.faa-burst.animated.faa-slow,
+.faa-burst.animated-hover.faa-slow:hover,
+.faa-parent.animated-hover:hover > .faa-burst.faa-slow {
+animation: burst 3s infinite linear
+}
+
+  </style>
 </head>
 <body class="hold-transition skin-green sidebar-mini sidebar-collapse">
 <div class="wrapper">
@@ -82,42 +480,54 @@ ini_set('display_errors', 0);
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
-          <li class="dropdown messages-menu">
+          <?php
+          $query=mysql_query("SELECT tbl_prod_reject.no_ticket, tbl_prod_reject.insertDate, tbl_prod_reject.sector,
+                    tbl_prod_reject.insertedBy, SUM(tbl_prod_reject.qty) as total,
+                  SUM(tbl_prod_reject.amount) as amount, tbl_prod_reject.action, tbl_prod_reject.pic,
+                  tbl_approve.mgr_name, tbl_approve.eng_name, tbl_approve.spv, tbl_approve.finance_mgr, tbl_approve.sap_admin,
+                  tbl_approve.eng_date, tbl_approve.mgr_date, tbl_approve.spv_date, tbl_approve.finance_mgrDate
+                    FROM tbl_prod_reject
+                  left join tbl_approve on tbl_approve.no_ticket= tbl_prod_reject.no_ticket
+                  WHERE plant='".$tes['plant']."' AND mgr_name ='' AND spv!=''
+                  GROUP BY no_ticket") or die(mysql_error());
+          $jumlahnotif = mysql_query($query);
+          $jumlah = mysql_num_rows($jumlahnotif);
+          ?>
+          <li class="dropdown notifications-menu" >
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-bell-o"></i>
-              <span class="label label-success"><?php echo $num; ?></span>
+              <i class="fa fa-fw fa-bell faa-ring animated"></i>
+              <span class="label label-info"><?php echo $jumlah; ?></span>
             </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have <?php echo $num; ?> notification</li>
+            <ul class="dropdown-menu" style="width: 450px">
+              <li class="header">You have <?php echo $jumlah; ?> Delete Propose</li>
               <li>
-                <!-- inner menu: contains the actual data -->
                 <ul class="menu">
-                <?php while($res=mysql_fetch_array($qry)){ ?>
-                  <li><!-- start message -->
-                    <a href="#">
-                      <div class="pull-left">
-                      <img src="../assets/image/header.png" class="user-image" alt="User Image" style="background-color: white;">
-                      </div>
-                      <h4>
-                        <?php echo $res['by']; ?>
-                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                      </h4>
-                      <p><?php echo $res['info']; ?></p>
+                  <!-- Date -->
+                  <?php
+                    $query=mysql_query("SELECT * FROM tbl_prod_reject where statusdel = 1");
+                    while($b=mysql_fetch_array($query)){
+                      $no_ticket = $b['no_ticket'];
+                      $id = $b['id_reject'];
+                      $material = $b['material_name'];?>
+                  <li>
+                    <a>
+                      <i class="fa fa-warning text-yellow"></i> Some Material on Ticket <?php echo $no_ticket; ?> need approval to delete ||
+                      <button class="btn btn-info btn-xs" onclick="window.location.href='showDelete.php?ticket=<?php echo $no_ticket?>&id=<?php echo $id?>&material=<?php echo $material?>'"><i class="fa fa-eye "></i></button>
+                      <button class="btn btn-danger btn-xs" onclick="window.location.href='delitem.php?ticket=<?php echo $no_ticket?>&id=<?php echo $id?>&material=<?php echo $material?>'"><i class="fa fa-trash "></i></button>
+                      <button class="btn btn-warning btn-xs" onclick="window.location.href='delitem-cancel.php?ticket=<?php echo $no_ticket?>&id=<?php echo $id?>&material=<?php echo $material?>'"><i class="fa fa-times "></i></button>
                     </a>
                   </li>
-                  <!-- end message -->
-                  <?php } ?>
+                <?php } ?>
                 </ul>
               </li>
-              <li class="footer"><a href="#">See All Notif</a></li>
             </ul>
           </li>
 
-          <?php  
+          <?php
           $query="SELECT * FROM tbl_prod_reject where statusdel = 1";
           $jumlahnotif = mysql_query($query);
           $jumlah = mysql_num_rows($jumlahnotif);
-          ?> 
+          ?>
           <li class="dropdown notifications-menu" >
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-flag"></i>
@@ -130,13 +540,13 @@ ini_set('display_errors', 0);
                   <!-- Date -->
                   <?php
                     $query=mysql_query("SELECT * FROM tbl_prod_reject where statusdel = 1");
-                    while($b=mysql_fetch_array($query)){  
+                    while($b=mysql_fetch_array($query)){
                       $no_ticket = $b['no_ticket'];
                       $id = $b['id_reject'];
                       $material = $b['material_name'];?>
                   <li>
                     <a>
-                      <i class="fa fa-warning text-yellow"></i> Some Material on Ticket <?php echo $no_ticket; ?> need approval to delete || 
+                      <i class="fa fa-warning text-yellow"></i> Some Material on Ticket <?php echo $no_ticket; ?> need approval to delete ||
                       <button class="btn btn-info btn-xs" onclick="window.location.href='showDelete.php?ticket=<?php echo $no_ticket?>&id=<?php echo $id?>&material=<?php echo $material?>'"><i class="fa fa-eye "></i></button>
                       <button class="btn btn-danger btn-xs" onclick="window.location.href='delitem.php?ticket=<?php echo $no_ticket?>&id=<?php echo $id?>&material=<?php echo $material?>'"><i class="fa fa-trash "></i></button>
                       <button class="btn btn-warning btn-xs" onclick="window.location.href='delitem-cancel.php?ticket=<?php echo $no_ticket?>&id=<?php echo $id?>&material=<?php echo $material?>'"><i class="fa fa-times "></i></button>
@@ -231,9 +641,9 @@ ini_set('display_errors', 0);
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="add_reject.php"><i class="fa fa-circle-o"></i> Add Product Reject</a></li>
             <li><a href="product_reject.php"><i class="fa fa-circle-o"></i> Waiting List Approval</a></li>
-            <li><a href="execution_approval.php"><i class="fa fa-circle-o"></i> Approval</a></li>
+            <li><a href="execution_approval.php"><i class="fa fa-circle-o"></i> Approved List</a></li>
+            <li><a href="history_approval.php"><i class="fa fa-circle-o"></i> History</a></li>
           </ul>
         </li>
         <li>

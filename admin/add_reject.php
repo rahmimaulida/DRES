@@ -158,21 +158,45 @@ if($tbltemp){
                   </tbody>
               </table>
               <?php if($numtbl > 0 ){?>
+                <br>
+                  <center><div id="my_camera"></div>
+                    <br>
+                  <div id="results"></div></center>
+                  <br>
                 <script type="text/javascript" src="../webcam/webcam.min.js"></script>
+                <script language="JavaScript">
+                  Webcam.set({
+                    width: 320,
+                    height: 240,
+                    image_format: 'jpeg',
+                    jpeg_quality: 90
+                  });
+                  Webcam.attach( '#my_camera' );
+                </script>
               <div class="text-center">
 
-              	<!-- First, include the Webcam.js JavaScript Library -->
-                <br>
-                  <center><div id="my_camera"></div></center>
-                  <br>
+                <!-- First, include the Webcam.js JavaScript Library -->
+
                 <form>
-              		<input type=button value="Take Snapshot" onClick="take_snapshot()" class="btn btn-lg btn-warning btn-sm">
+                  <input type=button value="Take Snapshot" onClick="take_snapshot()" class="btn btn-lg btn-warning btn-sm">
                 </form>
               <br>
               <br>
                 <form action="save_reject.php" method="post">
                   <button type="submit" name="submit" class="btn btn-lg btn-success"><i class="fa fa-save"></i> Save</button>
                 </form>
+                    <script language="JavaScript">
+                      function take_snapshot() {
+                        // take snapshot and get image data
+                        Webcam.snap( function(data_uri) {
+                          // display results in page
+                          Webcam.upload( data_uri, 'saveimage.php', function(code, text) {
+                          document.getElementById('results').innerHTML =
+                            '<img src="'+data_uri+'"/>';
+                        } );
+                      } );
+                    }
+                    </script>
               </div>
               <?php } ?>
             </div>
@@ -339,7 +363,7 @@ $(document).ready(function () {
 
 
 </script>
-
+<!--
 <script language="JavaScript">
 		Webcam.set({
 			width: 320,

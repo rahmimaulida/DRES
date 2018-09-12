@@ -28,6 +28,7 @@ include 'header.php';
             </div>
             <!-- /.box-header -->
             <div class="box-body">
+              <div class="table-responsive">
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -59,7 +60,7 @@ include 'header.php';
 
                 </tbody>
               </table>
-
+            </div>
             </div>
             <!-- /.box-body -->
 
@@ -186,7 +187,7 @@ include 'header.php';
           var recipient = button.data('whatever') // Extract info from data-* attributes
           var modal = $(this);
           var dataString = 'id=' + recipient;
- 
+
             $.ajax({
                 type: "GET",
                 url: "updLine.php",
@@ -199,7 +200,7 @@ include 'header.php';
                 error: function(err) {
                     console.log(err);
                 }
-            });  
+            });
     })
 
     $(document).ready(function() {

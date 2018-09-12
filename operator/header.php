@@ -160,11 +160,18 @@ $num=mysql_num_rows($qry);
             <i class="fa fa-pencil"></i> <span>Action Tracker</span>
           </a>
         </li>
-        <li>
-          <a href="add_reject.php">
+        <li class="treeview">
+          <a href="#">
             <i class="fa fa-list"></i>
             <span>Execution</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
+          <ul class="treeview-menu">
+            <li><a href="add_reject.php"><i class="fa fa-circle-o"></i> Add Product Reject</a></li>
+            <li><a href="product_reject.php"><i class="fa fa-circle-o"></i> History</a></li>
+          </ul>
         </li>
       </ul>
     </section>

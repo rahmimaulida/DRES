@@ -113,6 +113,23 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-4">
+            <div class="box box-success">
+                <div class="box-header with-border box-solid bg-green">
+                    <h3 class="box-title">Picture</h3>
+                </div>
+
+                <?php
+                $sql=mysql_query("select gambar from tbl_approve where no_ticket= $no_ticket");
+                $tampilkan = mysql_fetch_array($sql);
+                  ?>
+                <!-- /.box-header -->
+                <center>
+                  <td><img src="../assets/img/<?php echo $tampilkan['gambar']?>" width="150px" height="120px"/></td>
+                </center>
+                  <!--<img src="<?php// echo $tampilkan['']; ?>" width="150px" height="150px"/></center> -->
+        </div>
+    </div>
         </section>
     </div>
 
@@ -136,30 +153,5 @@
     })
   })
 
-  $(document).ready(function() {
-
-    <?php if($tes['mgr_com'] == ''){?>
-        $('button[type="submit"]').attr('disabled' , true);
-    <?php }else if($tes['mgr_com'] != ''){?>
-        $('button[type="submit"]').attr('disabled' , true);
-    <?php } ?>
-
-$('textarea').on('keyup',function()
-{
-    var textarea_val = $("#comment").val();
-
-    var minLength = $("#comment").attr( 'minlength' );
-
-    if(textarea_val != '' && textarea_val.length >= minLength)
-    {
-        $('button[type="submit"]').attr('disabled' , false);
-    }
-    else
-    {
-        $('button[type="submit"]').attr('disabled' , true);
-    }
-});
-
-});
 </script>
 </html>

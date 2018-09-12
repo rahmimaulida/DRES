@@ -25,31 +25,29 @@ $es=mysql_fetch_array($check);
     <!-- Main content -->
     <section class="content">
       <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-12.5">
           <div class="box">
             <div class="box-header with-border box-solid bg-green">
               <h3 class="box-title">List Product Reject</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <form class="form-horizontal" action="approve.php" method="post">
+              <div class="table-responsive">
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr valign="middle">
-                  <th class="text-center" width="1px" rowspan="3">Ticket No</th>
+                  <th class="text-center" width="1px" rowspan="2">Ticket No</th>
                   <th class="text-center" colspan="2">Line Inspector</th>
                   <th class="text-center" colspan="2">Engineer</th>
                   <th class="text-center" colspan="2">Supervisor</th>
                   <th class="text-center" colspan="2">CS&Q Manager</th>
                   <th class="text-center" colspan="2">Finance Manager</th>
-                  <th class="text-center" width="3px" rowspan="3">SAP Admin</th>
-                  <th class="text-center" rowspan="3">Sector</th>
-                  <th class="text-center" width="1px" rowspan="3">Total Reject Qty</th>
-                  <th class="text-center" width="2px" rowspan="3">Total Amount</th>
-                  <th class="text-center" rowspan="3">Status</th>
-                  <th class="text-center" rowspan="3">Action</th>
-                </tr>
-                <tr>
+                  <th class="text-center" width="3px" rowspan="2">SAP Admin</th>
+                  <th class="text-center" rowspan="2">Sector</th>
+                  <th class="text-center" width="1px" rowspan="2">Total Reject Qty</th>
+                  <th class="text-center" width="2px" rowspan="2">Total Amount</th>
+                  <th class="text-center" rowspan="2">Status</th>
+                  <th class="text-center" rowspan="2">Action</th>
                 </tr>
                 <tr>
                   <th class="text-center">Name</th>
@@ -85,9 +83,21 @@ $es=mysql_fetch_array($check);
                   if ($jumlah==0){?><td colspan="17" style="text-align: center;">NO WAITING LIST APPROVAL</td><?php }
                   while($b=mysql_fetch_array($query)){
                 ?>
+                <?php
+
+                $tresss=MySQL_query("SELECT * FROM tbl_thresholdqty WHERE id=1");
+                $qty=mysql_fetch_array($tresss);
+
+                $tressss=MySQL_query("SELECT * FROM tbl_threshold WHERE id_threshold=1");
+                $amount=mysql_fetch_array($tressss);
+                ?>
                 <tr class="text-center">
+                  <?php if($b['total'] <= $qty['thresholdQty'] && $b['amount'] <= $amount['threshold']){?>
                   <td><a class="btn btn-warning btn-xs" href="#" data-target="#ModalDetail" data-whatever="<?php echo $b['no_ticket']; ?>"
                     data-toggle="modal"><?php echo $b['no_ticket']; $no_ticket = $b['no_ticket']; ?></a></td>
+                  <?php } else { ?>
+                    <td><a class="btn btn-danger btn-xs" href="#" data-target="#ModalDetail" data-whatever="<?php echo $b['no_ticket']; ?>" data-toggle="modal"><?php echo $b['no_ticket']; $no_ticket = $b['no_ticket']; ?></a></td>
+                  <?php } ?>
                   <td><?php echo $b['insertedBy']; ?></td>
                   <td><?php echo $b['insertDate']; ?></td>
                   <td><?php echo $b['eng_name']; ?></td>
@@ -105,9 +115,7 @@ $es=mysql_fetch_array($check);
                   <td>US$<?php echo number_format($b['amount'],2,",","."); ?></td>
                   <td><?php echo $b['action'] ?></td>
                   <!--Roman-->
-                  <input type="hidden" name="ticket" id="ticket" value="<?php echo $no_ticket; ?>">
-                  <input type="hidden" name="comment" id="comment" value="-">
-                  <?php 
+                  <?php
 
                   $tresss=MySQL_query("SELECT * FROM tbl_thresholdqty WHERE id=1");
                   $qty=mysql_fetch_array($tresss);
@@ -115,17 +123,22 @@ $es=mysql_fetch_array($check);
                   $tressss=MySQL_query("SELECT * FROM tbl_threshold WHERE id_threshold=1");
                   $amount=mysql_fetch_array($tressss);
                   ?>
+                  <form class="form-horizontal" action="approve.php" method="post">
                   <td>
+                    <input type="hidden" name="ticket" id="ticket" value="<?php echo $no_ticket; ?>">
+                    <input type="hidden" name="comment" id="comment" value="-">
+
                     <?php if($b['total'] <= $qty['thresholdQty'] && $b['amount'] <= $amount['threshold']){?>
                     <button type="submit" class="btn btn-success btn-sm" name="approve" id="approve" >Approve <i class="fa fa-thumbs-up"></i></button> <?php }else{?>
                     <a class="btn btn-success btn-sm" name="approve" id="approve" href="#" data-target="#ModalDetailsCommentApprove" data-whatever="<?php echo $b['no_ticket']; ?>" data-toggle="modal">Approve <i class="fa fa-thumbs-up"></i></a><?php }?>
                     <a class="btn btn-danger btn-sm" name="reject" id="reject" href="#" data-target="#ModalDetailsCommentReject" data-whatever="<?php echo $b['no_ticket']; ?>"
-                      data-toggle="modal">&nbsp;&nbsp;&nbsp;Reject&nbsp;&nbsp;&nbsp; <i class="fa fa-thumbs-down"></i></a></td>
+                      data-toggle="modal">&nbsp;&nbsp;Reject&nbsp;&nbsp; <i class="fa fa-thumbs-down"></i></a></td>
                 </tr>
                 <?php } ?>
               </form>
                 </tbody>
               </table>
+              </div>
             </div>
             <!-- /.box-body -->
 
@@ -227,9 +240,17 @@ $es=mysql_fetch_array($check);
 <script src="../assets/dist/js/demo.js"></script>
 <!-- page script -->
 <script>
-  $(function () {
-    $('#example1').DataTable()
+$(function () {
+  $('#example1').DataTable()
+  $('#example2').DataTable({
+    'paging'      : true,
+    'lengthChange': true,
+    'searching'   : true,
+    'ordering'    : true,
+    'info'        : true,
+    'autoWidth'   : true
   })
+})
 
   $(document).ready(function() {
         $('#del_confirm').on('show.bs.modal', function(e) {

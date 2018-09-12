@@ -36,6 +36,7 @@ if (isset($_POST['submit'])) {
             </div>
             <!-- /.box-header -->
             <div class="box-body">
+              <div class="table-responsive">
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -70,7 +71,7 @@ if (isset($_POST['submit'])) {
 
                 </tbody>
               </table>
-
+            </div>
             </div>
             <!-- /.box-body -->
 
@@ -199,7 +200,7 @@ if (isset($_POST['submit'])) {
           var recipient = button.data('whatever') // Extract info from data-* attributes
           var modal = $(this);
           var dataString = 'id=' + recipient;
- 
+
             $.ajax({
                 type: "GET",
                 url: "updMaterial.php",
@@ -212,7 +213,7 @@ if (isset($_POST['submit'])) {
                 error: function(err) {
                     console.log(err);
                 }
-            });  
+            });
     })
 </script>
 

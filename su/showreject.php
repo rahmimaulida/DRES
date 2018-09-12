@@ -189,7 +189,7 @@ $(function () {
   })
 </script>
 
-
+<!--
 <script>
 $(document).ready(function() {
     <?php if($tes['eng_com'] == ''){?>
@@ -214,5 +214,5 @@ $('textarea').on('keyup',function()
 
 });
 
-</script>
+</script>-->
 </html>

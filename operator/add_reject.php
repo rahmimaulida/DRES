@@ -6,8 +6,10 @@ include 'header.php';
 $t = mysql_query("SELECT sector from tbl_users WHERE userId='".$_SESSION['username']."'") or die(mysql_error());
 $s = mysql_fetch_array($t);
 
-$pic = mysql_query("SELECT name FROM tbl_users WHERE position='CS&Q Engineer' AND sector='".$s['sector']."'") or die(mysql_error());
+$pic = mysql_query("SELECT name FROM tbl_users WHERE position='CS&Q Engineer'") or die(mysql_error());
 $sector = mysql_query("SELECT sector FROM tbl_users WHERE position='CS&Q Engineer' AND sector='".$s['sector']."'") or die(mysql_error());
+
+$shift = mysql_query("SELECT * FROM shift");
 
 $material = mysql_query("SELECT material_name, material_description FROM tbl_material");
 $tbltemp = mysql_query("SELECT * FROM tempreject_".$_SESSION['username']."");
@@ -64,11 +66,11 @@ if($tbltemp){
                     <input type="text" class="form-control" name="when" id="when" placeholder="Insert When" value="<?php echo date('Y-m-d'); ?>" required>
                 </div>
                 <div class="form-group">
-                  <label>Shift hbwssehfbhdsbf</label>
-                  <select name="shift" id="shift" required>
+                  <label>Shift</label>
+                  <select class="form-control selectpicker" name="shift" id="shift" required>
                     <option disabled selected>Select Shift...</option>
-                    <?php while($res=mysql_fetch_array($sector)){?>
-                      <option value="<?php echo $res['sector']; ?>"><?php echo $res['sector']; ?></option>
+                    <?php while($shiftRES=mysql_fetch_array($shift)){?>
+                      <option value="<?php echo $shiftRES['id_shift']; ?>"><?php echo $shiftRES['shift']; ?></option>
                     <?php } ?>
                   </select>
                 </div>

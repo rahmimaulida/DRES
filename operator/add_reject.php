@@ -6,7 +6,7 @@ include 'header.php';
 $t = mysql_query("SELECT sector from tbl_users WHERE userId='".$_SESSION['username']."'") or die(mysql_error());
 $s = mysql_fetch_array($t);
 
-$pic = mysql_query("SELECT name FROM tbl_users WHERE position='CS&Q Engineer'") or die(mysql_error());
+//$pic = mysql_query("SELECT name FROM tbl_users WHERE position='CS&Q Engineer' AND sector='".$s['sector']."'") or die(mysql_error());
 $sector = mysql_query("SELECT sector FROM tbl_users WHERE position='CS&Q Engineer' AND sector='".$s['sector']."'") or die(mysql_error());
 
 $shift = mysql_query("SELECT * FROM shift");
@@ -78,9 +78,8 @@ if($tbltemp){
                   <label>Sector</label>
                   <select class="form-control selectpicker" data-live-search="true" name="sector" id="sector" required>
                     <option disabled selected>Select Sector...</option>
-                    <?php while($res=mysql_fetch_array($sector)){?>
+                    <?php $res=mysql_fetch_array($sector);?>
                       <option value="<?php echo $res['sector']; ?>"><?php echo $res['sector']; ?></option>
-                    <?php } ?>
                   </select>
                 </div>
                 <div class="form-group">
@@ -338,7 +337,8 @@ $(document).ready(function () {
         var qty = $('#qty').val();
         var issue =  $('#issue').val();
         var when =  $('#when').val();
-        if(pic == '' || material == '' || material_description == '' || qty == '' || issue == '' || sector == '' || line == '' || when == ''){
+        var shift = $('#shift').val();
+        if(shift == '' || pic == '' || material == '' || material_description == '' || qty == '' || issue == '' || sector == '' || line == '' || when == ''){
         }
         else {
           $.ajax({

@@ -12,6 +12,7 @@ if(isset($_POST['reject'])){
     $com = "Ticket No.".$ticket." Has Update Comments By ".$_SESSION['name']." at ".$date;
     $check = mysql_query("SELECT mgr_name, mgr_date, mgr_com, mgr_status FROM tbl_approve WHERE no_ticket='$ticket'");
     $res = mysql_fetch_array($check);
+    $userku =  $_SESSION['name'];
 
 
     if($res['mgr_com'] == $comment && $res['mgr_status'] == 'Reject'){
@@ -26,9 +27,9 @@ if(isset($_POST['reject'])){
         }
 
         if ($backto=='Supervisor (Support Function)'){
-        $qry = mysql_query("UPDATE tbl_approve SET spv='',spv_com='',spv_date='',spv_status='Reject' WHERE no_ticket='$ticket'");}
+        $qry = mysql_query("UPDATE tbl_approve SET spv='',spv_com='',spv_date='',spv_status='Reject', BackFrom = 'CS&Q Manager' , mgr_com = '$comment' WHERE no_ticket='$ticket'");}
         elseif ($backto=='CS&Q Engineer'){
-        $qry = mysql_query("UPDATE tbl_approve SET spv='',spv_com='',spv_date='',spv_status='reject',eng_name='',eng_com='',eng_date='',eng_status='reject' WHERE no_ticket='$ticket'");}
+        $qry = mysql_query("UPDATE tbl_approve SET spv='',spv_com='',spv_date='',spv_status='reject',eng_name='',eng_com='',eng_date='',eng_status='reject', BackFrom = 'CS&Q Manager' , mgr_com = '$comment' WHERE no_ticket='$ticket'");}
 
         header("location: product_reject.php");
     }
